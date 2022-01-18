@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Platform, StyleSheet, Text, View, FlatList, ScrollView } from 'react-native'
-import User from './User'
+import User from './Users'
 import { Client } from '../helper/types'
 
 export default function Clients() {
