@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Platform, StyleSheet, Text, View, FlatList, Dimensions } from 'react-native'
+import { Platform, StyleSheet, Text, FlatList } from 'react-native'
 import User from './Users'
 import { Client } from '../helper/types'
 
@@ -18,21 +18,13 @@ export default function Clients() {
         keyExtractor={(item) => item?.id}
         data={people}
         renderItem={({ item }) => ( <User user={item}/> )} 
-        ListFooterComponent={<Text style={styles.title}></Text>}
       />
     
   )
 }
 
-const { width, height } = Dimensions.get('window');
-
 const styles = StyleSheet.create({
   container: {
-    //paddingTop: 20,
-    height: height,
-    // paddingHorizontal: 50,
-    // alignItems: 'center',
-    // justifyContent: 'center',
     ... Platform.select({
       ios: {
         backgroundColor: 'white',
@@ -45,6 +37,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 32, 
     marginTop: 20,
+    marginBottom: 10,
     fontWeight: 'bold',
     textAlign: 'center'
   }

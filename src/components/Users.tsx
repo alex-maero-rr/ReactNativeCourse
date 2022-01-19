@@ -21,7 +21,7 @@ export default function User(props: Props){
 const styles = StyleSheet.create({
   item: {
     marginTop: 24,
-    marginHorizontal: 40,
+    marginHorizontal: 20,
     padding: 20, 
     fontSize: 13,
     borderRadius: 20,
