@@ -1,48 +1,51 @@
-import React, { useState, useEffect } from 'react'
+import React, { useContext } from 'react'
 import { Platform, StyleSheet, Text, FlatList, View, TouchableOpacity, Button } from 'react-native'
 import User from './Users'
-import { Client } from '../helper/types'
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import { RootStackParamList } from '../helper/types';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import Ionicons from 'react-native-vector-icons/Ionicons'
+import { ClientContext } from '../context/ClientContext'
 
 
 type Props = NativeStackScreenProps<RootStackParamList, 'List'>;
 
 
 export default function List({ route, navigation }: Props) {
-  const [people, setPeople] = useState<Client[]>([])
-
-  const getClients = async() => {
-    const clients = await AsyncStorage.getItem('clients');
-    const parsedClients = clients && JSON.parse(clients);
-    setPeople(parsedClients)
-  }
-
-  useEffect (() => {
-    getClients();
-  },[])
-
+  const clientContext = useContext(ClientContext)
+  console.log(clientContext?.clients)
   const Header = (
     <View>
-
       <Text style={styles.title}>Client List</Text>
       <TouchableOpacity style={styles.bttnAdd} onPress={() => navigation.navigate('AddForm')}>
+        <Ionicons name='person-add'  size={20}/>
         <Text style={styles.bttnAddText}>Add Client</Text>
       </TouchableOpacity>
-
     </View>
-
   )
 
 
   return (    
-    <FlatList style={styles.container}
-      ListHeaderComponent={Header}
-      keyExtractor={(item) => item?.id}
-      data={people}
-      renderItem={({ item }) => ( <User user={item}/> )} 
-    />
+    <FlatList
+        data={clientContext?.clients}
+        contentContainerStyle={styles.container}
+        renderItem={({item}) => (
+          <>
+            <TouchableOpacity
+              onLongPress={() => clientContext?.deleteClient(item?.id)}
+              onPress={() =>
+                navigation.navigate('AddForm', {
+                  client: item,
+                })
+              }>
+              <User user={item} />
+            </TouchableOpacity>
+          </>
+        )}
+        ListHeaderComponent={Header}
+        ItemSeparatorComponent={() => (
+          <View style={{height: 1, width: '100%', backgroundColor: 'pink'}} />
+        )}
+      />
   )
 }
 
@@ -66,23 +69,13 @@ const styles = StyleSheet.create({
     textAlign: 'center'
   },
   bttnAdd: {
-    ... Platform.select({
-      ios: {
-        backgroundColor: 'white',
-      },
-      android: {
-        backgroundColor: '#C2EEF5',
-      }
-    }),
-    marginHorizontal: 120,
-    marginTop: 20,
-    padding: 20,
-    borderRadius: 50,
-    backgroundColor: 'white',
+    alignSelf: 'center',
+    flexDirection: 'row',
   },
     bttnAddText: {
     textAlign: 'center',
     color: 'black',
-    fontWeight: 'bold'
+    fontWeight: 'bold',
+    marginLeft: 10,
   },
 })

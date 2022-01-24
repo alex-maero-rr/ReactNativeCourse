@@ -1,5 +1,5 @@
 export interface Client {
-  id: string,
+  id: number,
   name: string,
   email: string,
 }
@@ -9,15 +9,18 @@ export interface Credentials {
   password: string;
 }
 
-// export interface AddCredentials {
-//   user: string;
-//   email: string
-// }
+export interface iClientContext {
+  clients: Client[] | null;
+  deleteClient: (id: number | undefined) => void;
+  addClient: (client: Client) => void;
+  updateClient: (client: Client) => void;
+}
 
 export type RootStackParamList = {
   Login: {setIsSignedIn: React.Dispatch<React.SetStateAction<boolean>>} | undefined;
   Register: undefined;
   List: undefined;
-  AddForm: {setIsAdded: React.Dispatch<React.SetStateAction<boolean>>} | undefined;
+  Client: undefined;
+  AddForm: {client: Client}
 };
-​
+

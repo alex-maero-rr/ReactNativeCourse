@@ -95,9 +95,12 @@ export default function Register({route, navigation}: Props) {
       {errors.password && <Text>This is required.</Text>}
 
       <TouchableOpacity style={styles.button} onPress={handleSubmit(onSubmit)}>
-        <Text style={styles.buttonText}>Submit</Text>
+        <Text style={styles.buttonText}>Create Account</Text>
       </TouchableOpacity>
-      <Button title='Login' onPress={() => navigation.navigate('Login')}></Button>
+      <TouchableOpacity onPress={() => navigation.navigate('Login')}>
+        <Text style={styles.register}>Login</Text>
+      </TouchableOpacity>
+      {/* <Button title='Login' onPress={() => navigation.navigate('Login')}></Button> */}
     </View>
   );
 }
@@ -145,5 +148,12 @@ const styles = StyleSheet.create({
       paddingHorizontal: 10,
       margin: 5,
     },
+    register: {
+      fontSize: 18,
+      textDecorationLine: 'underline',
+      textAlign: 'center',
+      color: 'black',
+      paddingTop: 80,
+    }
   });
 

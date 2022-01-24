@@ -1,13 +1,3 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * Generated with the TypeScript template
- * https://github.com/react-native-community/react-native-template-typescript
- *
- * @format
- */
-
 import React from 'react';
 import {
   SafeAreaView,
@@ -17,11 +7,10 @@ import {
   useColorScheme,
   View,
 } from 'react-native';
+import ClientContextProvider from './context/ClientContext';
 //import List from './components/List'
 //import Login from './components/Login';
 import FlipperAsyncStorage from 'rn-flipper-async-storage-advanced';
-<script src="path/to/dist/feather.js"></script>
-
 
 import {
   Colors,
@@ -69,10 +58,10 @@ const App = () => {
   };
 
   return (
-    <>
+      <ClientContextProvider>
       <FlipperAsyncStorage />
           <MainStack />
-    </>
+      </ClientContextProvider>
   );
 };
 

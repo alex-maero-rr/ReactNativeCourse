@@ -65,6 +65,7 @@ export default function Login({route, navigation}: Props) {
         control={control}
         rules={{
           required: true,
+
         }}
         render={({field: {onChange, onBlur, value}}) => (
           <View style={styles.textInputsContainer}>
@@ -104,7 +105,9 @@ export default function Login({route, navigation}: Props) {
       <TouchableOpacity style={styles.button} onPress={handleSubmit(onSubmit)}>
         <Text style={styles.buttonText}>Submit</Text>
       </TouchableOpacity>
-      <Button title='Register' onPress={() => navigation.navigate('Register')}></Button>
+      <TouchableOpacity onPress={() => navigation.navigate('Register')}>
+        <Text style={styles.register}>Register</Text>
+      </TouchableOpacity>
     </View>
   );
 }
@@ -151,4 +154,11 @@ const styles = StyleSheet.create({
       paddingHorizontal: 10,
       margin: 5,
     },
+    register: {
+      fontSize: 18,
+      textDecorationLine: 'underline',
+      textAlign: 'center',
+      color: 'black',
+      paddingTop: 80,
+    }
   });

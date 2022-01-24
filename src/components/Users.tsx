@@ -1,9 +1,9 @@
 
 
 import React from 'react'
-import { Platform, StyleSheet, Text, View } from 'react-native'
+import { Platform, StyleSheet, Text, View, TouchableOpacity } from 'react-native'
 import { Client } from '../helper/types'
-
+import IconFeather from 'react-native-vector-icons/Feather'
 
 interface Props {
   user: Client
@@ -11,17 +11,29 @@ interface Props {
 
 export default function User(props: Props){
   return (
-    <View style={styles.item}>
-      <Text>{`Id: ${props.user?.id}`}</Text>
-      <Text>{`Name: ${props.user?.name}`}</Text>
-      <Text>{`Email ${props.user?.email}`}</Text>
+    <View style={styles.cardContainer}>
+      <TouchableOpacity onLongPress={() => console.log('deleting')}>
+      <View>
+        <Text>{`Id: ${props.user?.id}`}</Text>
+        <Text>{`Name: ${props.user?.name}`}</Text>
+        <Text>{`Email ${props.user?.email}`}</Text>
+      </View>
+      </TouchableOpacity>
+
+      <View>
+        <IconFeather name='edit' onPress={() => {console.log('edit client')}} size={26}/>
+      </View>
     </View>
+    
     
   )
 }
 
 const styles = StyleSheet.create({
-  item: {
+  cardContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
     marginTop: 24,
     marginHorizontal: 20,
     padding: 20, 
@@ -35,9 +47,9 @@ const styles = StyleSheet.create({
       android: {
         backgroundColor: 'white',
       }
-    })
+    }),
   },
-  // btnContainer: {
-
-  // }
+  line: {
+   flexDirection: 'row',
+  },
 })

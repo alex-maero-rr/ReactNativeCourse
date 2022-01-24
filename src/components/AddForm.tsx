@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import {
   Text,
   View,
@@ -8,11 +8,11 @@ import {
   StyleSheet,
   TouchableOpacity,
 } from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useForm, Controller} from 'react-hook-form';
 import { Client } from '../helper/types';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import { RootStackParamList } from '../helper/types';
+import { ClientContext } from '../context/ClientContext'
 
 type Props = NativeStackScreenProps<RootStackParamList, 'AddForm'>;
 
@@ -23,26 +23,8 @@ const screenDimensions = {
 };
 
 export default function Add({route, navigation}: Props) {
-  const handleAdd = async (clientData: Client) => {
-    const clients = await AsyncStorage.getItem('clients');
-    const parsedClients = (clients && JSON.parse(clients))??[];
-    console.log(parsedClients)
-    try {
-      const newClient= {
-        id: (clients && +parsedClients?.length +1) ?? '1',
-        name: clientData.name,
-        email: clientData.email,
-      }
-      console.log('Array.isArray',Array.isArray(parsedClients))
-      parsedClients.push(newClient)
-      console.log('parsedclient',parsedClients)
-        await AsyncStorage.setItem('clients', JSON.stringify(parsedClients))
-      
-      // await AsyncStorage.setItem('clients', JSON.stringify([newClient]))
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  const clientContext = useContext(ClientContext)
+
 
   const {
     control,
@@ -55,12 +37,13 @@ export default function Add({route, navigation}: Props) {
     },
   });
   const onSubmit = (data: Client) => {
-    handleAdd(data);
+    console.log(ClientContext)
+    clientContext?.addClient(data);
   };
   return (
     <View style={styles.formContainer}>
       <View style={styles.titleContainer}>
-        <Text style={styles.title}>Add New User</Text>
+        <Text style={styles.title}>New User</Text>
       </View>
       <Controller
         control={control}
@@ -127,7 +110,8 @@ const styles = StyleSheet.create({
       color: 'black',
       fontSize: 35,
       width: 200,
-      marginBottom: 20
+      marginBottom: 20,
+      fontWeight: 'bold',
     },
     button: {
       marginVertical: 20,
