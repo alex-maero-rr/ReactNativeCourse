@@ -24,12 +24,16 @@ const ClientContextProvider: FC = ({children}) => {
   };
 
   const addClient = async (client: Client): Promise<void> => {
-    setClients([...clients, {...client, id: clients ? clients.length + 1 : 1}]);
+    setClients([...clients, {...client, id: clients.length ? clients[clients.length-1].id + 1 : 1}]);
     await AsyncStorage.setItem('clients', JSON.stringify(clients));
   };
 
-  const updateClient = (client: Client): void => {
-    setClients(clients?.map(c => (c.id === client.id ? client : c)));
+  const updateClient = async (client: Client): Promise<void> => {
+    console.log(client)
+    const newClients = clients?.map(c => (c.id === client.id ? client : c));
+    setClients(newClients);
+    console.log(newClients)
+    await AsyncStorage.setItem('clients', JSON.stringify(newClients));
   };
 
   return (

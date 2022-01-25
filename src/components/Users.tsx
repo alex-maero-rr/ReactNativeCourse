@@ -1,12 +1,17 @@
-
-
 import React from 'react'
 import { Platform, StyleSheet, Text, View, TouchableOpacity } from 'react-native'
-import { Client } from '../helper/types'
+import { Client, RootStackParamList } from '../helper/types'
 import IconFeather from 'react-native-vector-icons/Feather'
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+
+type Navigation = NativeStackScreenProps<
+  RootStackParamList,
+  'List'
+>['navigation'];
 
 interface Props {
-  user: Client
+  user: Client,
+  navigation: Navigation
 }
 
 export default function User(props: Props){
@@ -21,7 +26,7 @@ export default function User(props: Props){
       </TouchableOpacity>
 
       <View>
-        <IconFeather name='edit' onPress={() => {console.log('edit client')}} size={26}/>
+        <IconFeather name='edit' onPress={() => {props.navigation.navigate('AddForm', {client: props.user})}} size={26}/>
       </View>
     </View>
     

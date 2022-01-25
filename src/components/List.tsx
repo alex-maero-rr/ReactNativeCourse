@@ -12,7 +12,6 @@ type Props = NativeStackScreenProps<RootStackParamList, 'List'>;
 
 export default function List({ route, navigation }: Props) {
   const clientContext = useContext(ClientContext)
-  console.log(clientContext?.clients)
   const Header = (
     <View>
       <Text style={styles.title}>Client List</Text>
@@ -37,13 +36,13 @@ export default function List({ route, navigation }: Props) {
                   client: item,
                 })
               }>
-              <User user={item} />
+              <User user={item} navigation={navigation}/>
             </TouchableOpacity>
           </>
         )}
         ListHeaderComponent={Header}
         ItemSeparatorComponent={() => (
-          <View style={{height: 1, width: '100%', backgroundColor: 'pink'}} />
+          <View style={{height: 1, width: '100%'}} />
         )}
       />
   )

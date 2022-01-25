@@ -21,6 +21,6 @@ export type RootStackParamList = {
   Register: undefined;
   List: undefined;
   Client: undefined;
-  AddForm: {client: Client}
+  AddForm: {client: Client} | undefined
 };
 

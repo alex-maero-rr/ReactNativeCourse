@@ -1,4 +1,4 @@
-import React, {useContext, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {
   Text,
   View,
@@ -7,12 +7,14 @@ import {
   Button,
   StyleSheet,
   TouchableOpacity,
+  NativeModules,
 } from 'react-native';
 import {useForm, Controller} from 'react-hook-form';
 import { Client } from '../helper/types';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import { RootStackParamList } from '../helper/types';
 import { ClientContext } from '../context/ClientContext'
+import { useIsFocused } from '@react-navigation/native';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'AddForm'>;
 
@@ -24,21 +26,38 @@ const screenDimensions = {
 
 export default function Add({route, navigation}: Props) {
   const clientContext = useContext(ClientContext)
+  const [id, setId] = useState<number>(-1);
+
+  const isFocused = useIsFocused();
+
+  console.log("isFocused", isFocused)
+
+  const { control, handleSubmit, reset, formState: {errors} } = useForm();
+
+  console.log("----------PARAMS-----------", route.params)
+
+  useEffect(() => {
+    if(!isFocused) {
+      console.log("RESETEO TODO")
+      reset({name: undefined, email: undefined})
+      navigation.setParams({client: undefined})
+    }
+  }, [isFocused])
+
+  useEffect(() => {
+    console.log("route.params",route.params);
+    console.log("----------PARAMS-----------", route.params)
+    reset({name: route.params?.client?.name, email: route.params?.client?.email}),
+  console.log("client id", route.params?.client?.id)
+    setId(route.params?.client?.id ?? -1)
+  }, [reset, route.params?.client])
 
 
-  const {
-    control,
-    handleSubmit,
-    formState: {errors},
-  } = useForm({
-    defaultValues: {
-      name: '',
-      email: '',
-    },
-  });
   const onSubmit = (data: Client) => {
-    console.log(ClientContext)
-    clientContext?.addClient(data);
+    route.params?.client
+    ? clientContext?.updateClient({...data, id})
+    : clientContext?.addClient(data);
+    navigation.navigate('List')
   };
   return (
     <View style={styles.formContainer}>

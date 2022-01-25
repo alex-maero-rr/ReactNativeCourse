@@ -9,6 +9,7 @@ import AddForm from '../components/AddForm'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import AntDesign from 'react-native-vector-icons/AntDesign'
+import RNBootSplash from 'react-native-bootsplash'
 
 
 const Stack = createNativeStackNavigator()
@@ -20,7 +21,7 @@ export default () => {
   const [isAdded, setIsAdded] = useState(false)
 
   return (
-    <NavigationContainer>
+    <NavigationContainer onReady={() => RNBootSplash.hide()}>
       {isSignedIn ? (
           <Tab.Navigator
             screenOptions={({ route }) => ({
@@ -54,8 +55,9 @@ export default () => {
             />
             <Stack.Screen 
               name = 'AddForm'
-              initialParams={{setIsSignedIn}}
+              // initialParams={{setIsSignedIn}}
               component = { AddForm }
+              initialParams={{client: undefined}}
               options={({navigation}) => ({
                 headerRight: () => (
                   <TouchableOpacity onPress={() => setIsSignedIn(false)} style={styles.bttn}>
