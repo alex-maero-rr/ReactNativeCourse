@@ -18,7 +18,7 @@ import {
   LearnMoreLinks,
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
-//import Register from './components/Register';
+// import Register from './components/Register';
 import MainStack from './Navigation/MainStack';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
@@ -52,7 +52,6 @@ const Section: React.FC<{
 
 const App = () => {
   const isDarkMode = useColorScheme() === 'dark';
-
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
   };

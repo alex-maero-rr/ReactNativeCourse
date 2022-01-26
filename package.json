@@ -8,6 +8,7 @@
     "ios": "react-native run-ios",
     "start": "react-native start",
     "test": "jest",
+    "coverage": "jest --coverage",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx"
   },
   "dependencies": {
@@ -19,6 +20,7 @@
     "@react-navigation/bottom-tabs": "^6.0.9",
     "@react-navigation/native": "^6.0.6",
     "@react-navigation/native-stack": "^6.2.5",
+    "@testing-library/react-native": "^9.0.0",
     "feather-icons": "^4.28.0",
     "link": "^0.1.5",
     "react": "17.0.2",
@@ -36,7 +38,9 @@
     "rn-flipper-async-storage-advanced": "^1.0.4"
   },
   "devDependencies": {
-    "@babel/core": "^7.12.9",
+    "@babel/core": "^7.16.12",
+    "@babel/preset-env": "^7.16.11",
+    "@babel/preset-react": "^7.16.7",
     "@babel/runtime": "^7.12.5",
     "@react-native-community/eslint-config": "^2.0.0",
     "@testing-library/jest-native": "^4.0.4",
@@ -54,19 +58,5 @@
   },
   "resolutions": {
     "@types/react": "^17"
-  },
-  "jest": {
-    "setupFiles": [
-      "./path/to/jestSetupFile.tsx"
-    ],
-    "preset": "react-native",
-    "moduleFileExtensions": [
-      "ts",
-      "tsx",
-      "js",
-      "jsx",
-      "json",
-      "node"
-    ]
   }
 }

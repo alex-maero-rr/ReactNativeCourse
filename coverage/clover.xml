@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<coverage generated="1643208401867" clover="3.2.0">
+  <project timestamp="1643208401868" name="All files">
+    <metrics statements="39" coveredstatements="26" conditionals="22" coveredconditionals="14" methods="16" coveredmethods="10" elements="77" coveredelements="50" complexity="0" loc="39" ncloc="39" packages="1" files="2" classes="2"/>
+    <file name="Login.tsx" path="/Users/radiumrocket29/projects/NativeCourse2/src/components/Login.tsx">
+      <metrics statements="18" coveredstatements="18" conditionals="12" coveredconditionals="12" methods="7" coveredmethods="7"/>
+      <line num="17" count="1" type="stmt"/>
+      <line num="25" count="20" type="stmt"/>
+      <line num="26" count="3" type="stmt"/>
+      <line num="27" count="3" type="stmt"/>
+      <line num="28" count="3" type="cond" truecount="2" falsecount="0"/>
+      <line num="29" count="2" type="cond" truecount="2" falsecount="0"/>
+      <line num="33" count="2" type="cond" truecount="2" falsecount="0"/>
+      <line num="37" count="1" type="stmt"/>
+      <line num="39" count="1" type="stmt"/>
+      <line num="42" count="1" type="stmt"/>
+      <line num="50" count="20" type="stmt"/>
+      <line num="56" count="20" type="stmt"/>
+      <line num="57" count="3" type="stmt"/>
+      <line num="59" count="20" type="stmt"/>
+      <line num="70" count="33" type="stmt"/>
+      <line num="91" count="33" type="stmt"/>
+      <line num="114" count="1" type="stmt"/>
+      <line num="121" count="1" type="stmt"/>
+    </file>
+    <file name="Register.tsx" path="/Users/radiumrocket29/projects/NativeCourse2/src/components/Register.tsx">
+      <metrics statements="21" coveredstatements="8" conditionals="10" coveredconditionals="2" methods="9" coveredmethods="3"/>
+      <line num="9" count="1" type="stmt"/>
+      <line num="17" count="1" type="stmt"/>
+      <line num="18" count="0" type="stmt"/>
+      <line num="19" count="0" type="stmt"/>
+      <line num="20" count="0" type="cond" truecount="0" falsecount="2"/>
+      <line num="21" count="0" type="cond" truecount="0" falsecount="2"/>
+      <line num="23" count="0" type="stmt"/>
+      <line num="26" count="0" type="stmt"/>
+      <line num="27" count="0" type="stmt"/>
+      <line num="28" count="0" type="stmt"/>
+      <line num="31" count="0" type="stmt"/>
+      <line num="32" count="0" type="stmt"/>
+      <line num="35" count="0" type="stmt"/>
+      <line num="43" count="1" type="stmt"/>
+      <line num="49" count="1" type="stmt"/>
+      <line num="50" count="0" type="stmt"/>
+      <line num="52" count="1" type="stmt"/>
+      <line num="63" count="1" type="stmt"/>
+      <line num="83" count="1" type="stmt"/>
+      <line num="100" count="0" type="stmt"/>
+      <line num="109" count="1" type="stmt"/>
+    </file>
+  </project>
+</coverage>
