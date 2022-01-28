@@ -4,9 +4,9 @@ import {
   View,
   TextInput,
   Dimensions,
-  Button,
   StyleSheet,
   TouchableOpacity,
+  KeyboardAvoidingView,
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useForm, Controller} from 'react-hook-form';
@@ -57,64 +57,67 @@ export default function Login({route, navigation}: Props) {
     handleLogin(data);
   };
   return (
-    <View style={styles.formContainer}>
-      <View style={styles.titleContainer}>
-        <Text style={styles.title}>Log in</Text>
+    <KeyboardAvoidingView behavior={'height'}>
+      <View style={styles.formContainer}>
+        <View style={styles.titleContainer}>
+          <Text style={styles.title}>Login</Text>
+        </View>
+        <Controller
+          control={control}
+          rules={{
+            required: true,
+          }}
+          render={({field: {onChange, onBlur, value}}) => (
+            <View style={styles.textInputsContainer}>
+              <TextInput
+                onBlur={onBlur}
+                onChangeText={onChange}
+                style={styles.textInput}
+                value={value}
+                placeholder="Username"
+                testID="user-input"
+              />
+            </View>
+          )}
+          name="user"
+        />
+        {errors.user && <Text>User is required.</Text>}
+        <Controller
+          control={control}
+          rules={{
+            maxLength: 100,
+            required: true,
+          }}
+          render={({field: {onChange, onBlur, value}}) => (
+            <View style={styles.textInputsContainer}>
+              <TextInput
+                onBlur={onBlur}
+                onChangeText={onChange}
+                style={styles.textInput}
+                value={value}
+                placeholder="Password"
+                testID="password-input"
+                secureTextEntry={true}
+                autoCapitalize="none"
+              />
+            </View>
+          )}
+          name="password"
+        />
+        {errors.password && <Text>Password is required.</Text>}
+        <TouchableOpacity
+          style={styles.button}
+          testID="submit-button"
+          onPress={handleSubmit(onSubmit)}>
+          <Text style={styles.buttonText}>Submit</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          testID="register-button"
+          onPress={() => navigation.navigate('Register')}>
+          <Text style={styles.register}>Register</Text>
+        </TouchableOpacity>
       </View>
-      <Controller
-        control={control}
-        rules={{
-          required: true,
-        }}
-        render={({field: {onChange, onBlur, value}}) => (
-          <View style={styles.textInputsContainer}>
-            <TextInput
-              onBlur={onBlur}
-              onChangeText={onChange}
-              style={styles.textInput}
-              value={value}
-              placeholder="Username"
-              testID="user-input"
-            />
-          </View>
-        )}
-        name="user"
-      />
-      {errors.user && <Text>User is required.</Text>}
-      <Controller
-        control={control}
-        rules={{
-          maxLength: 100,
-          required: true,
-        }}
-        render={({field: {onChange, onBlur, value}}) => (
-          <View style={styles.textInputsContainer}>
-            <TextInput
-              onBlur={onBlur}
-              onChangeText={onChange}
-              style={styles.textInput}
-              value={value}
-              placeholder="Password"
-              testID="password-input"
-            />
-          </View>
-        )}
-        name="password"
-      />
-      {errors.password && <Text>Password is required.</Text>}
-
-      <TouchableOpacity
-        style={styles.button}
-        testID="submit-button"
-        onPress={handleSubmit(onSubmit)}>
-        <Text style={styles.buttonText}>Submit</Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        testID="register-button"
-        onPress={() => navigation.navigate('Register')}>
-        <Text style={styles.register}>Register</Text>
-      </TouchableOpacity>
-    </View>
+    </KeyboardAvoidingView>
   );
 }
 

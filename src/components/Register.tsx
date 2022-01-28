@@ -1,10 +1,18 @@
 import React from 'react';
-import {Text, View, TextInput, StyleSheet, TouchableOpacity, Dimensions, Button} from 'react-native';
+import {
+  Text,
+  View,
+  TextInput,
+  StyleSheet,
+  TouchableOpacity,
+  Dimensions,
+  Button,
+} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useForm, Controller} from 'react-hook-form';
-import { Credentials } from '../helper/types';
+import {Credentials} from '../helper/types';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import { RootStackParamList } from '../helper/types';
+import {RootStackParamList} from '../helper/types';
 
 const screenDimensions = {
   width: Dimensions.get('window').width,
@@ -28,9 +36,9 @@ export default function Register({route, navigation}: Props) {
           () => navigation.navigate('Login'),
         );
       }
-      AsyncStorage.setItem('users', JSON.stringify([newUser])).then(
-        () => navigation.navigate('Login'),
-      );;
+      AsyncStorage.setItem('users', JSON.stringify([newUser])).then(() =>
+        navigation.navigate('Login'),
+      );
     } catch (error) {
       console.log(error);
     }
@@ -57,11 +65,19 @@ export default function Register({route, navigation}: Props) {
       <Controller
         control={control}
         rules={{
-          required: true,
+          required: {value: true, message: 'You must specify a username'},
+          pattern: {
+            value: /^[a-zA-Z0-9_-]{3,16}$/,
+            message: 'You must specify a username',
+          },
+          minLength: {
+            value: 3,
+            message: 'The username must have at least 3 characters',
+          },
         }}
         render={({field: {onChange, onBlur, value}}) => (
           <View style={styles.textInputsContainer}>
-            <TextInput 
+            <TextInput
               onBlur={onBlur}
               onChangeText={onChange}
               style={styles.textInput}
@@ -72,12 +88,14 @@ export default function Register({route, navigation}: Props) {
         )}
         name="user"
       />
-      {errors.user && <Text>This is required.</Text>}
+      {errors.user && (
+        <Text style={styles.textError}>{errors.user.message}</Text>
+      )}
       <Controller
         control={control}
         rules={{
-          required: true,
-          maxLength: 100,
+          required: {value: true, message: 'You must specify a password'},
+          minLength: {value: 3, message: 'Must have more than 3 characters'},
         }}
         render={({field: {onChange, onBlur, value}}) => (
           <View style={styles.textInputsContainer}>
@@ -87,12 +105,16 @@ export default function Register({route, navigation}: Props) {
               style={styles.textInput}
               value={value}
               placeholder="Password"
+              secureTextEntry={true}
+              autoCapitalize="none"
             />
           </View>
         )}
         name="password"
       />
-      {errors.password && <Text>This is required.</Text>}
+      {errors.password && (
+        <Text style={styles.textError}>{errors.password.message}</Text>
+      )}
 
       <TouchableOpacity style={styles.button} onPress={handleSubmit(onSubmit)}>
         <Text style={styles.buttonText}>Create Account</Text>
@@ -100,60 +122,60 @@ export default function Register({route, navigation}: Props) {
       <TouchableOpacity onPress={() => navigation.navigate('Login')}>
         <Text style={styles.register}>Login</Text>
       </TouchableOpacity>
-      {/* <Button title='Login' onPress={() => navigation.navigate('Login')}></Button> */}
     </View>
   );
 }
 
-
 const styles = StyleSheet.create({
   formContainer: {
-      marginVertical: screenDimensions.height * 0.2,
-      paddingHorizontal: 30,
-      paddingVertical: 30,
-      justifyContent: 'center',
-      alignContent: 'center',
-    },
-    titleContainer: {
-      marginHorizontal: screenDimensions.width * 0.15,
-      alignContent: 'center',
-      justifyContent: 'center',
-    },
-    title: {
-      textAlign: 'center',
-      color: 'black',
-      fontSize: 35,
-      width: 200,
-      marginBottom: 20
-    },
-    button: {
-      marginVertical: 20,
-      marginHorizontal: 90,
-      marginTop: 60,
-      padding: 20,
-      borderRadius: 50,
-      backgroundColor: '#C2EEF5',
-    },
-    buttonText: {
-      textAlign: 'center',
-      color: 'black',
-      fontWeight: 'bold'
-    },
-    textInputsContainer: {
-      paddingBottom: 5,
-      borderBottomWidth: 0.4,
-    },
-    textInput: {
-      height: 40,
-      paddingHorizontal: 10,
-      margin: 5,
-    },
-    register: {
-      fontSize: 18,
-      textDecorationLine: 'underline',
-      textAlign: 'center',
-      color: 'black',
-      paddingTop: 80,
-    }
-  });
-
+    marginVertical: screenDimensions.height * 0.2,
+    paddingHorizontal: 30,
+    paddingVertical: 30,
+    justifyContent: 'center',
+    alignContent: 'center',
+  },
+  titleContainer: {
+    marginHorizontal: screenDimensions.width * 0.15,
+    alignContent: 'center',
+    justifyContent: 'center',
+  },
+  title: {
+    textAlign: 'center',
+    color: 'black',
+    fontSize: 35,
+    width: 200,
+    marginBottom: 20,
+  },
+  button: {
+    marginVertical: 20,
+    marginHorizontal: 90,
+    marginTop: 60,
+    padding: 20,
+    borderRadius: 50,
+    backgroundColor: '#C2EEF5',
+  },
+  buttonText: {
+    textAlign: 'center',
+    color: 'black',
+    fontWeight: 'bold',
+  },
+  textInputsContainer: {
+    paddingBottom: 5,
+    borderBottomWidth: 0.4,
+  },
+  textInput: {
+    height: 40,
+    paddingHorizontal: 10,
+    margin: 5,
+  },
+  register: {
+    fontSize: 18,
+    textDecorationLine: 'underline',
+    textAlign: 'center',
+    color: 'black',
+    paddingTop: 80,
+  },
+  textError: {
+    color: 'red',
+  },
+});

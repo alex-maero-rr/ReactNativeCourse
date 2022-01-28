@@ -2,6 +2,7 @@ import React, {useState, useEffect, createContext, FC} from 'react';
 import {Client} from '../helper/types';
 import {iClientContext} from '../helper/types';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import Toast from 'react-native-simple-toast';
 
 export const ClientContext = createContext<iClientContext | null>(null);
 
@@ -24,15 +25,20 @@ const ClientContextProvider: FC = ({children}) => {
   };
 
   const addClient = async (client: Client): Promise<void> => {
-    setClients([...clients, {...client, id: clients.length ? clients[clients.length-1].id + 1 : 1}]);
-    await AsyncStorage.setItem('clients', JSON.stringify(clients));
+    const newClients = [
+      ...clients,
+      {...client, id: clients.length ? clients[clients.length - 1].id + 1 : 1},
+    ];
+    setClients(newClients);
+    await AsyncStorage.setItem('clients', JSON.stringify(newClients));
+    Toast.show('Client created');
   };
 
   const updateClient = async (client: Client): Promise<void> => {
-    console.log(client)
+    console.log(client);
     const newClients = clients?.map(c => (c.id === client.id ? client : c));
     setClients(newClients);
-    console.log(newClients)
+    console.log(newClients);
     await AsyncStorage.setItem('clients', JSON.stringify(newClients));
   };
 

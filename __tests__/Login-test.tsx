@@ -30,19 +30,19 @@ describe('testing login form', () => {
     component = renderWithNavigation();
   });
 
-  it('submit button', () => {
+  it('render the submit button', () => {
     expect(component.getByText('Submit')).toBeTruthy();
   });
 
-  it('register button', () => {
+  it('render the register button', () => {
     expect(component.getByText('Register'));
   });
 
-  it('password', () => {
+  it('render the password input', () => {
     expect(component.getByPlaceholderText('Password'));
   });
 
-  it('username', () => {
+  it('render the username input', () => {
     expect(component.getByPlaceholderText('Username'));
   });
 

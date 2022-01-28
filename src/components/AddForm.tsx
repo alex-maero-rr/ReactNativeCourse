@@ -4,20 +4,17 @@ import {
   View,
   TextInput,
   Dimensions,
-  Button,
   StyleSheet,
   TouchableOpacity,
-  NativeModules,
 } from 'react-native';
 import {useForm, Controller} from 'react-hook-form';
-import { Client } from '../helper/types';
+import {Client} from '../helper/types';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import { RootStackParamList } from '../helper/types';
-import { ClientContext } from '../context/ClientContext'
-import { useIsFocused } from '@react-navigation/native';
+import {RootStackParamList} from '../helper/types';
+import {ClientContext} from '../context/ClientContext';
+import {useIsFocused} from '@react-navigation/native';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'AddForm'>;
-
 
 const screenDimensions = {
   width: Dimensions.get('window').width,
@@ -25,39 +22,38 @@ const screenDimensions = {
 };
 
 export default function Add({route, navigation}: Props) {
-  const clientContext = useContext(ClientContext)
+  const clientContext = useContext(ClientContext);
   const [id, setId] = useState<number>(-1);
 
   const isFocused = useIsFocused();
 
-  console.log("isFocused", isFocused)
-
-  const { control, handleSubmit, reset, formState: {errors} } = useForm();
-
-  console.log("----------PARAMS-----------", route.params)
+  const {
+    control,
+    handleSubmit,
+    reset,
+    formState: {errors},
+  } = useForm<Client>();
 
   useEffect(() => {
-    if(!isFocused) {
-      console.log("RESETEO TODO")
-      reset({name: undefined, email: undefined})
-      navigation.setParams({client: undefined})
+    if (!isFocused) {
+      reset({name: undefined, email: undefined});
+      navigation.setParams({client: undefined});
     }
-  }, [isFocused])
+  }, [isFocused]);
 
   useEffect(() => {
-    console.log("route.params",route.params);
-    console.log("----------PARAMS-----------", route.params)
-    reset({name: route.params?.client?.name, email: route.params?.client?.email}),
-  console.log("client id", route.params?.client?.id)
-    setId(route.params?.client?.id ?? -1)
-  }, [reset, route.params?.client])
-
+    reset({
+      name: route.params?.client?.name,
+      email: route.params?.client?.email,
+    }),
+      setId(route.params?.client?.id ?? -1);
+  }, [reset, route.params?.client]);
 
   const onSubmit = (data: Client) => {
     route.params?.client
-    ? clientContext?.updateClient({...data, id})
-    : clientContext?.addClient(data);
-    navigation.navigate('List')
+      ? clientContext?.updateClient({...data, id})
+      : clientContext?.addClient(data);
+    navigation.navigate('ClientList');
   };
   return (
     <View style={styles.formContainer}>
@@ -82,12 +78,13 @@ export default function Add({route, navigation}: Props) {
         )}
         name="name"
       />
-      {errors.name && <Text>This is required.</Text>}
+      {errors.name && <Text style={styles.textError}>This is required.</Text>}
       <Controller
         control={control}
         rules={{
           maxLength: 100,
           required: true,
+          pattern: /^[a-zA-Z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/,
         }}
         render={({field: {onChange, onBlur, value}}) => (
           <View style={styles.textInputsContainer}>
@@ -102,7 +99,9 @@ export default function Add({route, navigation}: Props) {
         )}
         name="email"
       />
-      {errors.email && <Text>This is required.</Text>}
+      {errors.email && (
+        <Text style={styles.textError}>Insert a valid email adress.</Text>
+      )}
 
       <TouchableOpacity style={styles.button} onPress={handleSubmit(onSubmit)}>
         <Text style={styles.buttonText}>Submit</Text>
@@ -113,45 +112,48 @@ export default function Add({route, navigation}: Props) {
 
 const styles = StyleSheet.create({
   formContainer: {
-      marginVertical: screenDimensions.height * 0.2,
-      paddingHorizontal: 30,
-      paddingVertical: 30,
-      justifyContent: 'center',
-      alignContent: 'center',
-    },
-    titleContainer: {
-      marginHorizontal: screenDimensions.width * 0.15,
-      alignContent: 'center',
-      justifyContent: 'center',
-    },
-    title: {
-      textAlign: 'center',
-      color: 'black',
-      fontSize: 35,
-      width: 200,
-      marginBottom: 20,
-      fontWeight: 'bold',
-    },
-    button: {
-      marginVertical: 20,
-      marginHorizontal: 90,
-      marginTop: 60,
-      padding: 20,
-      borderRadius: 50,
-      backgroundColor: '#C2EEF5',
-    },
-    buttonText: {
-      textAlign: 'center',
-      color: 'black',
-      fontWeight: 'bold'
-    },
-    textInputsContainer: {
-      paddingBottom: 5,
-      borderBottomWidth: 0.4,
-    },
-    textInput: {
-      height: 40,
-      paddingHorizontal: 10,
-      margin: 5,
-    },
-  });
+    marginVertical: screenDimensions.height * 0.2,
+    paddingHorizontal: 30,
+    paddingVertical: 30,
+    justifyContent: 'center',
+    alignContent: 'center',
+  },
+  titleContainer: {
+    marginHorizontal: screenDimensions.width * 0.15,
+    alignContent: 'center',
+    justifyContent: 'center',
+  },
+  title: {
+    textAlign: 'center',
+    color: 'black',
+    fontSize: 35,
+    width: 200,
+    marginBottom: 20,
+    fontWeight: 'bold',
+  },
+  button: {
+    marginVertical: 20,
+    marginHorizontal: 90,
+    marginTop: 60,
+    padding: 20,
+    borderRadius: 50,
+    backgroundColor: '#C2EEF5',
+  },
+  buttonText: {
+    textAlign: 'center',
+    color: 'black',
+    fontWeight: 'bold',
+  },
+  textInputsContainer: {
+    paddingBottom: 5,
+    borderBottomWidth: 0.4,
+  },
+  textInput: {
+    height: 40,
+    paddingHorizontal: 10,
+    margin: 5,
+  },
+  textError: {
+    color: 'red',
+  },
+});
